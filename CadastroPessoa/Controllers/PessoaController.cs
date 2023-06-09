@@ -22,10 +22,10 @@ namespace CadastroPessoa.Controllers
         }
 
         [HttpGet]
-        public async Task<ActionResult<List<Pessoa>>> BuscarTodasPessoas()
+        public async Task<ActionResult<List<Pessoa>>> BuscarTodasPessoas([FromQuery] int skip = 0, [FromQuery] int take = 5)
         {
             var listaPessoas = await _pessoaRepository.BuscarTodasPessoas();
-            return Ok(listaPessoas);
+            return Ok(listaPessoas.Skip(skip).Take(take));
         }
 
         [HttpGet("{id}")]
