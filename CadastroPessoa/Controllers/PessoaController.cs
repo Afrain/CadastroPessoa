@@ -43,7 +43,7 @@ namespace CadastroPessoa.Controllers
             pessoa.Status = Status.ATIVO;
 
             var pessoaSalva = await _pessoaRepository.Adicionar(pessoa);
-            return Created("", pessoaSalva);
+            return CreatedAtAction(nameof(BuscarPessoaId), new { id = pessoaSalva.Id }, pessoaSalva);
         }
 
         [HttpPut("{id}")]
