@@ -2,6 +2,8 @@ using CadastroPessoa.Data;
 using CadastroPessoa.Repositorio;
 using CadastroPessoa.Repositorio.Interfaces;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.OpenApi.Models;
+using System.Reflection;
 
 namespace CadastroPessoa
 {
@@ -16,7 +18,13 @@ namespace CadastroPessoa
             builder.Services.AddControllers();
             // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
             builder.Services.AddEndpointsApiExplorer();
-            builder.Services.AddSwaggerGen();
+            builder.Services.AddSwaggerGen( c =>
+            {
+                c.SwaggerDoc("v1", new OpenApiInfo { Title = "Cadastro Pessoa API", Version = "v1" });
+                var xmlFile = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
+                var xmlPath = Path.Combine(AppContext.BaseDirectory, xmlFile);
+                c.IncludeXmlComments(xmlPath);
+            });
 
             // Configuração da conexão com o banco de dados
             builder.Services.AddEntityFrameworkSqlServer()
