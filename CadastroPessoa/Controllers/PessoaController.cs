@@ -4,6 +4,7 @@ using CadastroPessoa.Models.Pessoa.DTO;
 using CadastroPessoa.Repositorio.Interfaces;
 using CadastroPessoa.Services;
 using Microsoft.AspNetCore.Mvc;
+using AutoMapper;
 
 namespace CadastroPessoa.Controllers
 {
@@ -14,11 +15,13 @@ namespace CadastroPessoa.Controllers
 
         private readonly IPessoaRepository _pessoaRepository;
         private PessoaServices _pessoaServices;
+        private readonly IMapper _mapper;
 
-        public PessoaController(IPessoaRepository iPessoaReporitory)
+        public PessoaController(IPessoaRepository iPessoaReporitory, IMapper iMapper)
         {
             _pessoaRepository = iPessoaReporitory;
             _pessoaServices = new PessoaServices();
+            _mapper = iMapper;
         }
 
         /// <summary>
@@ -34,10 +37,11 @@ namespace CadastroPessoa.Controllers
         /// </remarks>
         [HttpGet]
         [ProducesResponseType(StatusCodes.Status200OK)]
-        public async Task<ActionResult<List<Pessoa>>> BuscarTodasPessoas([FromQuery] int skip = 0, [FromQuery] int take = 20)
+        public async Task<ActionResult<List<PessoaResponseDTO>>> BuscarTodasPessoas([FromQuery] int skip = 0, [FromQuery] int take = 20)
         {
             var listaPessoas = await _pessoaRepository.BuscarTodasPessoas();
-            return Ok(listaPessoas.Skip(skip).Take(take));
+            var listaPessoasDTO = _mapper.Map<List<PessoaResponseDTO>>(listaPessoas);
+            return Ok(listaPessoasDTO.Skip(skip).Take(take));
         }
 
         /// <summary>
@@ -50,10 +54,12 @@ namespace CadastroPessoa.Controllers
         /// Código é obrigatório
         /// </remarks>
         [HttpGet("{id}")]
-        public async Task<ActionResult<Pessoa>> BuscarPessoaId(int id)
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        public async Task<ActionResult<PessoaResponseDTO>> BuscarPessoaId(int id)
         {
             var pessoa = await _pessoaRepository.BuscarPorID(id);
-            return Ok(pessoa);
+            var pessoaResponseDTO = _mapper.Map<PessoaResponseDTO>(pessoa);
+            return Ok(pessoaResponseDTO);
         }
 
         /// <summary>
@@ -63,14 +69,17 @@ namespace CadastroPessoa.Controllers
         /// <returns>ActionResult</returns>
         [HttpPost]
         [ProducesResponseType(StatusCodes.Status201Created)]
-        public async Task<ActionResult<Pessoa>> Cadastrar([FromBody] PessoaRequestDTO pessoaRequestDTO)
+        public async Task<ActionResult<PessoaResponseDTO>> Cadastrar([FromBody] PessoaRequestDTO pessoaRequestDTO)
         {
-            var pessoa = _pessoaServices.ConverteDTOParaObjeto(pessoaRequestDTO);
+            var pessoa = _mapper.Map<Pessoa>(pessoaRequestDTO);
             pessoa.DataCadastro = DateTime.Now;
             pessoa.Status = Status.ATIVO;
 
             var pessoaSalva = await _pessoaRepository.Adicionar(pessoa);
-            return CreatedAtAction(nameof(BuscarPessoaId), new { id = pessoaSalva.Id }, pessoaSalva);
+
+            var pessoaResponseDTO = _mapper.Map<PessoaResponseDTO>(pessoaSalva);
+
+            return CreatedAtAction(nameof(BuscarPessoaId), new { id = pessoaResponseDTO.Id }, pessoaResponseDTO);
         }
 
         /// <summary>
@@ -80,7 +89,8 @@ namespace CadastroPessoa.Controllers
         /// <param name="pessoaRequestDTO">Objeto com os campos necessários para a atualização de uma pessoa</param>
         /// <returns>ActionResult</returns>
         [HttpPut("{id}")]
-        public async Task<ActionResult<Pessoa>> Atualizar([FromBody] PessoaRequestDTO pessoaRequestDTO, int id)
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
+        public async Task<ActionResult<PessoaResponseDTO>> Atualizar([FromBody] PessoaRequestDTO pessoaRequestDTO, int id)
         {
             var pessoa = _pessoaServices.ConverteDTOParaObjeto(pessoaRequestDTO);
 
@@ -90,26 +100,38 @@ namespace CadastroPessoa.Controllers
 
             var pessoaAtualizada = await _pessoaRepository.Atualizar(pessoaBuscada);
 
-            return Ok(pessoaAtualizada);
+            var pessoaResponseDTO = _mapper.Map<PessoaResponseDTO>(pessoaAtualizada);
+
+            return StatusCode(StatusCodes.Status200OK, pessoaResponseDTO);
         }
 
         /// <summary>
         /// Excluir uma pessoa no banco de dados
         /// </summary>
         /// <param name="id">ID da pessoa que será excluida no banco de dados</param>
-        /// <returns>ActionResult</returns>
+        /// <returns>True caso a exclusão seja feita com sucesso</returns>
         [HttpDelete("{id}")]
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
         public ActionResult<Boolean> Excluir(int id)
         {
-            var exluiu = _pessoaRepository.Apagar(id);
-            return Ok(exluiu);
+            var excluiu = _pessoaRepository.Apagar(id);
+            return StatusCode(StatusCodes.Status204NoContent, excluiu);
         }
 
+        /// <summary>
+        /// Atualizar status da pessoa
+        /// </summary>
+        /// <param name="id">ID da pessoa que será atualizada o status no banco de dados</param>
+        /// <returns>True caso a exclusão seja feita com sucesso</returns>
         [HttpPut("{id}/alterarStatus")]
-        public async Task<ActionResult<Pessoa>> AlterarStatus(int id)
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
+        public async Task<ActionResult<PessoaResponseDTO>> AlterarStatus(int id)
         {
             var pessoaAtualizada = await _pessoaRepository.AlterarStatus(id);
-            return Ok(pessoaAtualizada);
+
+            var pessoaResponseDTO = _mapper.Map<PessoaResponseDTO>(pessoaAtualizada);
+
+            return StatusCode(StatusCodes.Status204NoContent, pessoaResponseDTO);
         }
     }
 }

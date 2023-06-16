@@ -26,6 +26,8 @@ namespace CadastroPessoa
                 c.IncludeXmlComments(xmlPath);
             });
 
+            builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
+
             // Configuração da conexão com o banco de dados
             builder.Services.AddEntityFrameworkSqlServer()
                 .AddDbContext<CadastroPessoaDBContext>(
