@@ -1,6 +1,7 @@
 ﻿using CadastroPessoa.Models.Enuns;
+using CadastroPessoa.Models.Pessoas;
 
-namespace CadastroPessoa.Models.Pessoas
+namespace CadastroPessoa.Models
 {
     public class Pessoa : EntidadeGenerica
     {

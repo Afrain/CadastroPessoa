@@ -1,4 +1,4 @@
-﻿using CadastroPessoa.Models.Pessoas;
+﻿using CadastroPessoa.Models;
 
 namespace CadastroPessoa.Repositorio.Interfaces
 {

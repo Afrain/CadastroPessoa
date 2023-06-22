@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace CadastroPessoa.Models.Pessoa.DTO
+namespace CadastroPessoa.Models.DTO
 {
     public class PessoaRequestDTO
     {

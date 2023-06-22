@@ -1,6 +1,6 @@
 ﻿using CadastroPessoa.Data;
+using CadastroPessoa.Models;
 using CadastroPessoa.Models.Enuns;
-using CadastroPessoa.Models.Pessoas;
 using CadastroPessoa.Repositorio.Interfaces;
 using Microsoft.EntityFrameworkCore;
 

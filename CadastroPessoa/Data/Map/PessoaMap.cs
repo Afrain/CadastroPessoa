@@ -1,4 +1,4 @@
-﻿using CadastroPessoa.Models.Pessoas;
+﻿using CadastroPessoa.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 

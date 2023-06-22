@@ -1,6 +1,6 @@
 ﻿using AutoMapper;
-using CadastroPessoa.Models.Pessoa.DTO;
-using CadastroPessoa.Models.Pessoas;
+using CadastroPessoa.Models;
+using CadastroPessoa.Models.DTO;
 
 namespace CadastroPessoa.Profiles
 {

@@ -1,6 +1,6 @@
 ﻿using CadastroPessoa.Models.Enuns;
 
-namespace CadastroPessoa.Models.Pessoa.DTO
+namespace CadastroPessoa.Models.DTO
 {
     public class PessoaResponseDTO
     {

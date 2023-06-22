@@ -36,6 +36,7 @@ namespace CadastroPessoa
 
             // Configura as dependencias do repository
             builder.Services.AddScoped<IPessoaRepository, PessoaRepository>();
+            builder.Services.AddScoped<IEnderecoRepository, EnderecoRepository>();
 
             var app = builder.Build();
 

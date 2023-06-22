@@ -1,10 +1,10 @@
 ﻿using CadastroPessoa.Models.Enuns;
-using CadastroPessoa.Models.Pessoas;
-using CadastroPessoa.Models.Pessoa.DTO;
 using CadastroPessoa.Repositorio.Interfaces;
 using CadastroPessoa.Services;
 using Microsoft.AspNetCore.Mvc;
 using AutoMapper;
+using CadastroPessoa.Models.DTO;
+using CadastroPessoa.Models;
 
 namespace CadastroPessoa.Controllers
 {
@@ -92,7 +92,7 @@ namespace CadastroPessoa.Controllers
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         public async Task<ActionResult<PessoaResponseDTO>> Atualizar([FromBody] PessoaRequestDTO pessoaRequestDTO, int id)
         {
-            var pessoa = _pessoaServices.ConverteDTOParaObjeto(pessoaRequestDTO);
+            var pessoa = _mapper.Map<Pessoa>(pessoaRequestDTO);
 
             var pessoaBuscada = await _pessoaRepository.BuscarPorID(id);
             pessoaBuscada.Nome = pessoa.Nome;

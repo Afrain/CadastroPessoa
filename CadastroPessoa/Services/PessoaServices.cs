@@ -1,5 +1,5 @@
-﻿using CadastroPessoa.Models.Pessoas;
-using CadastroPessoa.Models.Pessoa.DTO;
+﻿using CadastroPessoa.Models.DTO;
+using CadastroPessoa.Models;
 
 namespace CadastroPessoa.Services
 {

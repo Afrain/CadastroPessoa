@@ -1,4 +1,5 @@
 ﻿using CadastroPessoa.Data.Map;
+using CadastroPessoa.Models;
 using CadastroPessoa.Models.Pessoas;
 using Microsoft.EntityFrameworkCore;
 
