@@ -8,7 +8,7 @@ namespace CadastroPessoa.Models
         public string? Nome { get; set; }
         public string? CpfOuCnpj { get; set; }
         public Status Status { get; set; }
-        public virtual ICollection<Endereco> Enderecos { get; set; }
+        public virtual List<Endereco> Enderecos { get; set; }
 
         public Pessoa()
         {

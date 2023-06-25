@@ -9,7 +9,9 @@ namespace CadastroPessoa.Profiles
         public PessoaProfile()
         {
             CreateMap<PessoaRequestDTO, Pessoa>();
-            CreateMap<Pessoa, PessoaResponseDTO>();
+            CreateMap<Pessoa, PessoaResponseDTO>()
+                .ForMember(pessoaResponseDTO => pessoaResponseDTO.Enderecos,
+                            opt => opt.MapFrom(pessoa => pessoa.Enderecos));
         }
     }
 }

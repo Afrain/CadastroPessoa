@@ -31,7 +31,7 @@ namespace CadastroPessoa
             // Configuração da conexão com o banco de dados
             builder.Services.AddEntityFrameworkSqlServer()
                 .AddDbContext<CadastroPessoaDBContext>(
-                    options => options.UseSqlServer(builder.Configuration.GetConnectionString("DataBase"))
+                    options => options.UseLazyLoadingProxies().UseSqlServer(builder.Configuration.GetConnectionString("DataBase"))
                 );
 
             // Configura as dependencias do repository

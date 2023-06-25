@@ -1,4 +1,5 @@
 ﻿using CadastroPessoa.Models.Enuns;
+using CadastroPessoa.Models.Pessoas;
 
 namespace CadastroPessoa.Models.DTO
 {
@@ -13,5 +14,7 @@ namespace CadastroPessoa.Models.DTO
         public Status Status { get; set; }
 
         public DateTime DataCadastro { get; set; }
+
+        public List<EnderecoResponseDTO>? Enderecos { get; set; }
     }
 }

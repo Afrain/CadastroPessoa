@@ -10,6 +10,8 @@ namespace CadastroPessoa.Profiles
         {
             CreateMap<Endereco, EnderecoRequestDTO>();
             CreateMap<EnderecoRequestDTO, Endereco>();
+            CreateMap<Endereco, EnderecoResponseDTO>();
+            CreateMap<EnderecoResponseDTO, Endereco>();
         }
     }
 }
