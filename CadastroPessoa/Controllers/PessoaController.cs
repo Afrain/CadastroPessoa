@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Mvc;
 using AutoMapper;
 using CadastroPessoa.Models.DTO;
 using CadastroPessoa.Models;
+using CadastroPessoa.Models.Pessoas;
 
 namespace CadastroPessoa.Controllers
 {
@@ -14,13 +15,11 @@ namespace CadastroPessoa.Controllers
     {
 
         private readonly IPessoaRepository _pessoaRepository;
-        private PessoaServices _pessoaServices;
         private readonly IMapper _mapper;
 
-        public PessoaController(IPessoaRepository iPessoaReporitory, IMapper iMapper)
+        public PessoaController(IPessoaRepository iPessoaReporitory, IMapper iMapper, IEnderecoRepository enderecoRepository)
         {
             _pessoaRepository = iPessoaReporitory;
-            _pessoaServices = new PessoaServices();
             _mapper = iMapper;
         }
 

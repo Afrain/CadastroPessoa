@@ -17,5 +17,7 @@ namespace CadastroPessoa.Models.DTO
         [MinLength(11, ErrorMessage = "O tamanho minimo permitido é 11 caracteres!")]
         public string? CpfOuCnpj { get; set; }
 
+        public List<EnderecoRequestDTO>? Enderecos { get; set; }
+
     }
 }

@@ -1,4 +1,5 @@
 using CadastroPessoa.Data;
+using CadastroPessoa.Middlewares;
 using CadastroPessoa.Repositorio;
 using CadastroPessoa.Repositorio.Interfaces;
 using Microsoft.EntityFrameworkCore;
@@ -51,6 +52,7 @@ namespace CadastroPessoa
 
             app.UseAuthorization();
 
+            app.UseMiddleware(typeof(GlobalErrorHandlingMiddleware));
 
             app.MapControllers();
 

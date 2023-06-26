@@ -1,4 +1,5 @@
 ﻿using CadastroPessoa.Data;
+using CadastroPessoa.Middlewares.Exceptions;
 using CadastroPessoa.Models;
 using CadastroPessoa.Models.Enuns;
 using CadastroPessoa.Repositorio.Interfaces;
@@ -22,7 +23,7 @@ namespace CadastroPessoa.Repositorio
             // Lanço uma exceção caso a pessoa não seja encontrada
             if (pessoa == null)
             {
-                throw new Exception($"Pessoa buscada com ID:{id} não foi encontrada!");
+                throw new NotFoundException($"Pessoa buscada com ID:{id} não foi encontrada!");
             }
 
             return pessoa;
