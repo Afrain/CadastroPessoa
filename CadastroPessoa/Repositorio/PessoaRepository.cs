@@ -2,7 +2,9 @@
 using CadastroPessoa.Middlewares.Exceptions;
 using CadastroPessoa.Models;
 using CadastroPessoa.Models.Enuns;
+using CadastroPessoa.Models.Pessoas;
 using CadastroPessoa.Repositorio.Interfaces;
+using CadastroPessoa.Util;
 using Microsoft.EntityFrameworkCore;
 
 namespace CadastroPessoa.Repositorio
@@ -36,21 +38,27 @@ namespace CadastroPessoa.Repositorio
 
         public async Task<Pessoa> Adicionar(Pessoa pessoa)
         {
+            pessoa.DataCadastro = DateTime.Now;
+            pessoa.Status = Status.ATIVO;
+            
+            ValidaPessoa(pessoa);
+
             _dbContext.Pessoas.Add(pessoa);
             await _dbContext.SaveChangesAsync();
+            
             return pessoa;
         }
 
         public async Task<Pessoa> Atualizar(Pessoa pessoa)
         {
-            var usuarioBuscado = await BuscarPorID(pessoa.Id);
-            usuarioBuscado.Nome = pessoa.Nome;
-            usuarioBuscado.CpfOuCnpj = pessoa.CpfOuCnpj;
+            var pessoaBuscada = await BuscarPorID(pessoa.Id);
+            pessoaBuscada.Nome = pessoa.Nome;
+            pessoaBuscada.CpfOuCnpj = pessoa.CpfOuCnpj;
 
-            _dbContext.Pessoas.Update(usuarioBuscado);
+            _dbContext.Pessoas.Update(pessoaBuscada);
             await _dbContext.SaveChangesAsync();
 
-            return usuarioBuscado;
+            return pessoaBuscada;
         }
 
         public async Task<bool> Apagar(int id)
@@ -76,6 +84,37 @@ namespace CadastroPessoa.Repositorio
 
         }
 
-     
+        public void  ValidaPessoa(Pessoa pessoa)
+        {
+            var listaEnderecoAux = pessoa.Enderecos;
+            var quantidadeEncontrada = 0;
+
+            //Verifica se requisição tem tipo de endereço repetido
+            foreach (Endereco endereco in pessoa.Enderecos)
+            {
+                for (int i = 0; i < pessoa.Enderecos.Count; i++)
+                {
+                    if (endereco.EnderecoTipo.Equals(listaEnderecoAux[i].EnderecoTipo))
+                    {
+                        quantidadeEncontrada++;            
+                    }
+                }
+
+                if (quantidadeEncontrada > 1)
+                {
+                    throw new PessoaNegocioException("Existe tipos de endereço repetidos, só é permitido um endereço de cada tipo: 0 - PRINCIPAL, 1 - COMERCIAL, 2 - COBRANCA");
+                }
+
+                quantidadeEncontrada = 0;
+            }
+
+            //Verifica se CPF ou CNPJ é válido
+            if (!Validacoes.ValidaCPF(pessoa.CpfOuCnpj))
+            {
+                throw new CpfOuCnpjException("Cpf ou CNPJ inválido!");
+            }
+
+        }
+ 
     }
 }

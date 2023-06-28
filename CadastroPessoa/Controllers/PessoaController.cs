@@ -1,11 +1,9 @@
 ﻿using CadastroPessoa.Models.Enuns;
 using CadastroPessoa.Repositorio.Interfaces;
-using CadastroPessoa.Services;
 using Microsoft.AspNetCore.Mvc;
 using AutoMapper;
 using CadastroPessoa.Models.DTO;
 using CadastroPessoa.Models;
-using CadastroPessoa.Models.Pessoas;
 
 namespace CadastroPessoa.Controllers
 {
@@ -71,9 +69,7 @@ namespace CadastroPessoa.Controllers
         public async Task<ActionResult<PessoaResponseDTO>> Cadastrar([FromBody] PessoaRequestDTO pessoaRequestDTO)
         {
             var pessoa = _mapper.Map<Pessoa>(pessoaRequestDTO);
-            pessoa.DataCadastro = DateTime.Now;
-            pessoa.Status = Status.ATIVO;
-
+            
             var pessoaSalva = await _pessoaRepository.Adicionar(pessoa);
 
             var pessoaResponseDTO = _mapper.Map<PessoaResponseDTO>(pessoaSalva);

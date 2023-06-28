@@ -28,16 +28,29 @@ namespace CadastroPessoa.Middlewares
         public static Task HandleExceptionAsync(HttpContext httpContext, Exception exception)
         {
             HttpStatusCode statusCode;
-            string? stackTrace;
-            string? mensagem;
+            string? stackTrace = String.Empty;
+            string? mensagem = String.Empty;
             var exceptionType = exception.GetType();
 
             if (exceptionType == typeof(NotFoundException)) 
             {
                 mensagem = exception.Message;
                 statusCode = HttpStatusCode.NotFound;
-                stackTrace = exception.StackTrace;
-            } else
+                //stackTrace = exception.StackTrace;
+            }
+            else if (exceptionType == typeof(CpfOuCnpjException))
+            {
+                mensagem = exception.Message;
+                statusCode = HttpStatusCode.BadRequest;
+                //stackTrace = exception.StackTrace;
+            }
+            else if(exceptionType == typeof(PessoaNegocioException))
+            {
+                mensagem = exception.Message;
+                statusCode = HttpStatusCode.BadRequest;
+                //stackTrace = exception.StackTrace;
+            }
+            else
             {
                 mensagem= exception.Message;
                 statusCode = HttpStatusCode.InternalServerError;

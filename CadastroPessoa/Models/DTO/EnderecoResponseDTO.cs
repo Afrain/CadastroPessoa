@@ -1,4 +1,6 @@
-﻿namespace CadastroPessoa.Models.DTO
+﻿using CadastroPessoa.Models.Enuns;
+
+namespace CadastroPessoa.Models.DTO
 {
     public class EnderecoResponseDTO
     {
@@ -7,5 +9,6 @@
         public string? Bairro { get; set; }
         public string? Complemento { get; set; }
         public string? Cep { get; set; }
+        public String? EnderecoTipo { get; set; }
     }
 }

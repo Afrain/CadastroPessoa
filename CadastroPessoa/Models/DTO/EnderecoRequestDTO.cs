@@ -1,11 +1,21 @@
-﻿namespace CadastroPessoa.Models.DTO
+﻿using CadastroPessoa.Models.Enuns;
+using System.ComponentModel.DataAnnotations;
+
+namespace CadastroPessoa.Models.DTO
 {
     public class EnderecoRequestDTO
     {
-        public string Logradouro { get; set; }
-        public string Bairro { get; set; }
-        public string Complemento { get; set; }
-        public string Cep { get; set; }
-        public int PessoaID { get; set; }
+        [Required(ErrorMessage = "Logradouro é obrigatório!")]
+        public string? Logradouro { get; set; }
+
+        [Required(ErrorMessage = "Bairro é obrigatório!")]
+        public string? Bairro { get; set; }
+        public string? Complemento { get; set; }
+
+        [Required(ErrorMessage = "Cep é obrigatório!")]
+        public string? Cep { get; set; }
+
+        [Required(ErrorMessage = "Tipo é obrigatório!")]
+        public EnderecoTipo EnderecoTipo { get; set; }
     }
 }
