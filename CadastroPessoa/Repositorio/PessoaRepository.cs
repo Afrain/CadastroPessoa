@@ -88,24 +88,16 @@ namespace CadastroPessoa.Repositorio
         {
             var listaEnderecoAux = pessoa.Enderecos;
             var quantidadeEncontrada = 0;
-
-            //Verifica se requisição tem tipo de endereço repetido
-            foreach (Endereco endereco in pessoa.Enderecos)
+                
+            for (int i = 0; i < pessoa.Enderecos.Count; i++)
             {
-                for (int i = 0; i < pessoa.Enderecos.Count; i++)
-                {
-                    if (endereco.EnderecoTipo.Equals(listaEnderecoAux[i].EnderecoTipo))
-                    {
-                        quantidadeEncontrada++;            
-                    }
-                }
-
+                quantidadeEncontrada = pessoa.Enderecos.Count(e => e.EnderecoTipo.Equals(listaEnderecoAux[i].EnderecoTipo));
+                
                 if (quantidadeEncontrada > 1)
                 {
                     throw new PessoaNegocioException("Existe tipos de endereço repetidos, só é permitido um endereço de cada tipo: 0 - PRINCIPAL, 1 - COMERCIAL, 2 - COBRANCA");
                 }
 
-                quantidadeEncontrada = 0;
             }
 
             //Verifica se CPF ou CNPJ é válido
